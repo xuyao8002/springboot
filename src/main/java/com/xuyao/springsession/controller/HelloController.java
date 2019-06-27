@@ -16,11 +16,17 @@ public class HelloController {
     Integer port;
 
     @GetMapping("/login")
-    public void login(String username, String password) {
+    public String login(String username, String password) {
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         token.setRememberMe(true);
         Subject currentUser = SecurityUtils.getSubject();
-        currentUser.login(token);
+        try{
+            currentUser.login(token);
+        }catch (Exception e){
+            e.printStackTrace();
+            return "login faild " + e.getMessage();
+        }
+        return "login access";
     }
 
     @GetMapping("/logout")
