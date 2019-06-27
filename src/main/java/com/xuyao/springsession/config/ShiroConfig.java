@@ -1,5 +1,6 @@
 package com.xuyao.springsession.config;
 
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.AnonymousFilter;
@@ -17,6 +18,7 @@ public class ShiroConfig {
     @Bean
     public Realm realm() {
         CustomRealm customRealm = new CustomRealm();
+        customRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return customRealm;
     }
 //    @Bean
@@ -25,26 +27,27 @@ public class ShiroConfig {
 //    }
 
     @Bean
+    public HashedCredentialsMatcher hashedCredentialsMatcher() {
+        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+        /**
+         * 散列算法
+         */
+        hashedCredentialsMatcher.setHashAlgorithmName("MD5");
+        /**
+         * 散列次数
+         */
+        hashedCredentialsMatcher.setHashIterations(1);
+
+        return hashedCredentialsMatcher;
+    }
+
+
+    @Bean
     public DefaultWebSecurityManager defaultWebSecurityManager(Realm realm) {
         DefaultWebSecurityManager  securityManager = new DefaultWebSecurityManager ();
         securityManager.setRealm(realm);
         return securityManager;
     }
-
-//    @Bean
-//    public ShiroFilterChainDefinition shiroFilterChainDefinition() {
-//        DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
-//
-//        // logged in users with the 'admin' role
-//        chainDefinition.addPathDefinition("/admin/**", "authc, roles[admin]");
-//
-//        // logged in users with the 'document:read' permission
-//        chainDefinition.addPathDefinition("/docs/**", "authc, perms[document:read]");
-//
-//        // all other paths require a logged in user
-//        chainDefinition.addPathDefinition("/**", "authc");
-//        return chainDefinition;
-//    }
 
     @Bean
     public ShiroFilterFactoryBean shiroFilter(DefaultWebSecurityManager securityManager) {
@@ -53,14 +56,12 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
         //配置拦截器,实现无权限返回401,而不是跳转到登录页
-//        filters.put("anon", new AnonFilter());
         filters.put("anon", new AnonymousFilter());
         filters.put("authc", new LoginFilter());
-
         // 拦截器
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        // 过滤链定义，从上向下顺序执行，一般将 /**放在最为下边
-//        filterChainDefinitionMap.put("/admin/**", "roles[admin]");
+        // 过滤链定义，从上向下顺序执行，/**放在最为下边
+        filterChainDefinitionMap.put("/admin/**", "roles[admin]");
         //anon:可以匿名访问
         filterChainDefinitionMap.put("/login", "anon");
         //authc:认证通过才可以访问，放在最后

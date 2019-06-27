@@ -38,7 +38,6 @@ public class CustomRealm extends AuthorizingRealm {
         return password;
     }
 
-
     /**
      * 授权
      */
@@ -46,20 +45,22 @@ public class CustomRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         String username = (String) super.getAvailablePrincipal(principalCollection);
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        Set<String> roles = new HashSet<>();
-        roles.add("admin");
-        roles.add("guest");
-        authorizationInfo.setRoles(roles);
-        roles.forEach(role -> {
-            Set<String> permissions = new HashSet<>();
-            if ("admin".equals(role)) {
-                permissions.add("read");
-                permissions.add("write");
-            }else{
-                permissions.add("read");
-            }
-            authorizationInfo.addStringPermissions(permissions);
-        });
+        setRolesAndPermissions(authorizationInfo, username);
         return authorizationInfo;
+    }
+
+    private void setRolesAndPermissions(SimpleAuthorizationInfo authorizationInfo, String username) {
+        Set<String> roles = new HashSet<>();
+        Set<String> permissions = new HashSet<>();
+        if ("admin".equals(username)) {
+            roles.add("admin");
+            permissions.add("read");
+            permissions.add("write");
+        } else if ("guest".equals(username)) {
+            roles.add("guest");
+            permissions.add("read");
+        }
+        authorizationInfo.setRoles(roles);
+        authorizationInfo.addStringPermissions(permissions);
     }
 }
