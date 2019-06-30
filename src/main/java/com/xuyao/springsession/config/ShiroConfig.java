@@ -1,5 +1,6 @@
 package com.xuyao.springsession.config;
 
+import com.xuyao.springsession.utils.HashUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -32,11 +33,11 @@ public class ShiroConfig {
         /**
          * 散列算法
          */
-        hashedCredentialsMatcher.setHashAlgorithmName("MD5");
+        hashedCredentialsMatcher.setHashAlgorithmName(HashUtils.hashAlgorithmName);
         /**
          * 散列次数
          */
-        hashedCredentialsMatcher.setHashIterations(1);
+        hashedCredentialsMatcher.setHashIterations(HashUtils.hashIterations);
 
         return hashedCredentialsMatcher;
     }

@@ -1,5 +1,6 @@
 package com.xuyao.springsession.config;
 
+import com.xuyao.springsession.utils.HashUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -12,6 +13,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class CustomRealm extends AuthorizingRealm {
+
+
 
     /**
      * 认证
@@ -27,21 +30,27 @@ public class CustomRealm extends AuthorizingRealm {
 //        else if(!password.equals(new String((char[])token.getCredentials()))){
 //            throw new IncorrectCredentialsException("密码不正确");
 //        }
-        ByteSource credentialsSalt = ByteSource.Util.bytes(username);
+        ByteSource credentialsSalt = getSalt(username);
         return new SimpleAuthenticationInfo(username, password, credentialsSalt, getName());
     }
 
     private String getPassword(String username){
         String password = null;
-        if ("admin".equals(username)) {
-//            password = "admin";
-            //ByteSource credentialsSalt = ByteSource.Util.bytes(username);
-            password = "f6fdffe48c908deb0f4c3bd36c032e72";
-        } else if ("guest".equals(username)) {
-//            password = "guest";
-            password = "fe4ceeb01d43a6c29d8f4fe93313c6c1";
-        }
+        ByteSource salt = getSalt(username);
+        password = HashUtils.getHashVal(HashUtils.hashAlgorithmName, username, salt, HashUtils.hashIterations);
+//        if ("admin".equals(username)) {
+////            password = "admin";
+//            //ByteSource credentialsSalt = ByteSource.Util.bytes(username);
+//            password = "f6fdffe48c908deb0f4c3bd36c032e72";
+//        } else if ("guest".equals(username)) {
+////            password = "guest";
+//            password = "fe4ceeb01d43a6c29d8f4fe93313c6c1";
+//        }
         return password;
+    }
+
+    private ByteSource getSalt(String username) {
+        return ByteSource.Util.bytes(username);
     }
 
     /**
