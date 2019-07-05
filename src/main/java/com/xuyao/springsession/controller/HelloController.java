@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @RestController
@@ -18,7 +19,7 @@ public class HelloController {
     @GetMapping("/login")
     public String login(String username, String password) {
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-        token.setRememberMe(true);
+//        token.setRememberMe(true);
         Subject currentUser = SecurityUtils.getSubject();
         try{
             currentUser.login(token);
@@ -42,9 +43,9 @@ public class HelloController {
     }
 
     @GetMapping("/simple/up")
-    public String simple() {
+    public String simple(HttpServletRequest request) {
         Subject currentUser = SecurityUtils.getSubject();
-        return "UP UP " + currentUser.getPrincipal();
+        return "UP UP " + currentUser.getPrincipal() + ", sessionId: " + request.getRequestedSessionId();
     }
 
     @GetMapping("/set")
