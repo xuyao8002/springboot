@@ -54,6 +54,12 @@ public class HelloController {
         return customService.hello(name);
     }
 
+    @GetMapping("/stopWatch")
+    public void stopWatch() throws InterruptedException {
+        customService.stopWatch();
+    }
+
+
     @GetMapping("/set")
     public String set(HttpSession session) {
         session.setAttribute("msg", "hello");

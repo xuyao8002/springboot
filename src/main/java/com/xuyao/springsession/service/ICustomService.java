@@ -6,4 +6,6 @@ public interface ICustomService {
 
     String hello(String name) throws CustomException;
 
+    void stopWatch() throws InterruptedException;
+
 }
