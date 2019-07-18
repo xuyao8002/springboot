@@ -1,8 +1,11 @@
 package com.xuyao.springsession.controller;
 
+import com.xuyao.springsession.exception.CustomException;
+import com.xuyao.springsession.service.ICustomService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +16,9 @@ import javax.servlet.http.HttpSession;
 @RestController
 public class HelloController {
 
+    @Autowired
+    private ICustomService customService;
+
     @Value("${server.port}")
     Integer port;
 
@@ -21,12 +27,7 @@ public class HelloController {
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 //        token.setRememberMe(true);
         Subject currentUser = SecurityUtils.getSubject();
-        try{
-            currentUser.login(token);
-        }catch (Exception e){
-            e.printStackTrace();
-            return "login faild " + e.getMessage();
-        }
+        currentUser.login(token);
         return "login access";
     }
 
@@ -47,6 +48,17 @@ public class HelloController {
         Subject currentUser = SecurityUtils.getSubject();
         return "UP UP " + currentUser.getPrincipal() + ", sessionId: " + request.getRequestedSessionId();
     }
+
+    @GetMapping("/npe")
+    public String npe(String name) throws CustomException {
+        return customService.hello(name);
+    }
+
+    @GetMapping("/stopWatch")
+    public void stopWatch() throws InterruptedException {
+        customService.stopWatch();
+    }
+
 
     @GetMapping("/set")
     public String set(HttpSession session) {
