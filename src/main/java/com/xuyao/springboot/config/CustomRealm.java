@@ -1,6 +1,6 @@
-package com.xuyao.springsession.config;
+package com.xuyao.springboot.config;
 
-import com.xuyao.springsession.utils.HashUtils;
+import com.xuyao.springboot.utils.HashUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;

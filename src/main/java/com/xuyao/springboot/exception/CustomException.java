@@ -1,4 +1,4 @@
-package com.xuyao.springsession.exception;
+package com.xuyao.springboot.exception;
 
 public class CustomException extends Exception{
     private String code;

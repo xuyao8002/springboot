@@ -1,6 +1,6 @@
-package com.xuyao.springsession.dao;
+package com.xuyao.springboot.dao;
 
-import com.xuyao.springsession.bean.po.User;
+import com.xuyao.springboot.bean.po.User;
 
 public interface UserMapper {
     int deleteByPrimaryKey(Long id);

@@ -1,6 +1,6 @@
-package com.xuyao.springsession.config;
+package com.xuyao.springboot.config;
 
-import com.xuyao.springsession.exception.CustomException;
+import com.xuyao.springboot.exception.CustomException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

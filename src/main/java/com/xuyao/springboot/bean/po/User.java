@@ -1,4 +1,4 @@
-package com.xuyao.springsession.bean.po;
+package com.xuyao.springboot.bean.po;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
-package com.xuyao.springsession.service;
+package com.xuyao.springboot.service;
 
-import com.xuyao.springsession.exception.CustomException;
+import com.xuyao.springboot.exception.CustomException;
 
 public interface ICustomService {
 

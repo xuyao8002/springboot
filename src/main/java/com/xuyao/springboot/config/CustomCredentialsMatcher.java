@@ -1,4 +1,4 @@
-package com.xuyao.springsession.config;
+package com.xuyao.springboot.config;
 
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;

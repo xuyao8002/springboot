@@ -1,7 +1,7 @@
-package com.xuyao.springsession.controller;
+package com.xuyao.springboot.controller;
 
-import com.xuyao.springsession.exception.CustomException;
-import com.xuyao.springsession.service.ICustomService;
+import com.xuyao.springboot.exception.CustomException;
+import com.xuyao.springboot.service.ICustomService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;

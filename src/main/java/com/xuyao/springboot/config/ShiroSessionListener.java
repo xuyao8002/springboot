@@ -1,4 +1,4 @@
-package com.xuyao.springsession.config;
+package com.xuyao.springboot.config;
 
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.SessionListener;
