@@ -1,6 +1,6 @@
-package com.xuyao.springsession.config;
+package com.xuyao.springboot.config;
 
-import com.xuyao.springsession.utils.HashUtils;
+import com.xuyao.springboot.utils.HashUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;

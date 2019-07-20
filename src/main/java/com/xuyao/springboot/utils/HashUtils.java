@@ -1,4 +1,4 @@
-package com.xuyao.springsession.utils;
+package com.xuyao.springboot.utils;
 
 
 import org.apache.shiro.crypto.hash.SimpleHash;
