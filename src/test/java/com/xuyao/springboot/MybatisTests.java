@@ -1,7 +1,7 @@
 package com.xuyao.springboot;
 
 import com.xuyao.springboot.bean.po.User;
-import com.xuyao.springboot.dao.UserMapper;
+import com.xuyao.springboot.dao.IUserDao;
 import com.xuyao.springboot.startup.SpringbootApplication;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,11 +20,11 @@ public class MybatisTests {
 	private static String username = "guest";
 
 	@Autowired
-	private UserMapper userMapper;
+	private IUserDao userDao;
 
 	@Test
 	public void selectByPrimaryKey() {
-		User user = userMapper.selectByPrimaryKey(5L);
+		User user = userDao.selectByPrimaryKey(5L);
 		System.out.println(user);
 	}
 
@@ -38,7 +38,7 @@ public class MybatisTests {
 		insert.setPhone("18321703333");
 		insert.setEmail("125@123.com");
 		insert.setAddress("i'am hear");
-        int i = userMapper.insertSelective(insert);
+        int i = userDao.insertSelective(insert);
         System.out.println(insert);
 	}
 
@@ -65,7 +65,7 @@ public class MybatisTests {
 		insert.setAddress("i'am hear");
 		batchList.add(insert);
 
-        userMapper.batchInsert(batchList);
+        userDao.batchInsert(batchList);
         System.out.println(batchList);
     }
 
@@ -74,7 +74,7 @@ public class MybatisTests {
 	    User user = new User();
         user.setId(1L);
         user.setCreateDate(new Date());
-        int i = userMapper.updateByPrimaryKeySelective(user);
+        int i = userDao.updateByPrimaryKeySelective(user);
         System.out.println(i + ", " + user);
     }
 
@@ -93,7 +93,7 @@ public class MybatisTests {
         user.setId(4L);
         user.setCreateDate(new Date());
         update.add(user);
-        int i = userMapper.batchUpdate(update);
+        int i = userDao.batchUpdate(update);
         System.out.println(i);
     }
 

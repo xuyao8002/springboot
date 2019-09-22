@@ -1,5 +1,6 @@
 package com.xuyao.springboot.config;
 
+import com.xuyao.springboot.bean.po.Result;
 import com.xuyao.springboot.exception.CustomException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -10,12 +11,12 @@ public class CustomExceptionHandler {
    @ExceptionHandler(CustomException.class)
    private Object customHandler(CustomException e){
       e.printStackTrace();
-      return "CustomExceptionHandler.CustomException: " + e.getMessage();
+      return Result.error("异常", e.getMessage());
    }
    //其他异常
    @ExceptionHandler(Exception.class)
    public Object exceptionHandler(Exception e){
       e.printStackTrace();
-      return "CustomExceptionHandler.Exception: " + e.getMessage();
+      return Result.error("异常", "处理失败");
    }
 }

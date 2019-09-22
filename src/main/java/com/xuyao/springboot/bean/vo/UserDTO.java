@@ -1,20 +1,20 @@
-package com.xuyao.springboot.bean.po;
+package com.xuyao.springboot.bean.vo;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Date;
 
 @Getter
 @Setter
-public class User {
+@ToString
+public class UserDTO {
     private Long id;
 
     private String name;
 
     private String username;
-
-    private String password;
 
     private Integer gender;
 

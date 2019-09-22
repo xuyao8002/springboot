@@ -4,7 +4,7 @@ import com.xuyao.springboot.bean.po.User;
 
 import java.util.List;
 
-public interface UserMapper {
+public interface IUserDao {
     int deleteByPrimaryKey(Long id);
 
     int insert(User record);
@@ -20,4 +20,6 @@ public interface UserMapper {
     void batchInsert(List<User>list);
 
     int batchUpdate(List<User> list);
+
+    User selectOne(User user);
 }
