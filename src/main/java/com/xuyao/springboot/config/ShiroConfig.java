@@ -10,6 +10,7 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.AnonymousFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -23,6 +24,9 @@ public class ShiroConfig {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+
+    @Value("${shiro.filter}")
+    private String shiroFilter;
 
     @Bean
     public Realm realm() {
@@ -130,11 +134,13 @@ public class ShiroConfig {
         filters.put("anon", new AnonymousFilter());
         filters.put("authc", new ShiroAuthFilter(redisTemplate));
 
-        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-//        filterChainDefinitionMap.put("/admin/**", "roles[admin]");
-        filterChainDefinitionMap.put("/login", "anon");
-        filterChainDefinitionMap.put("/**", "authc");
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+//        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+//////        filterChainDefinitionMap.put("/admin/**", "roles[admin]");
+////        filterChainDefinitionMap.put("/login", "anon");
+////        filterChainDefinitionMap.put("/**", "authc");
+////        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+        shiroFilterFactoryBean.setFilterChainDefinitions(shiroFilter);
+
         return shiroFilterFactoryBean;
     }
 
