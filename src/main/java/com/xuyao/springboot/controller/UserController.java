@@ -3,7 +3,8 @@ package com.xuyao.springboot.controller;
 
 import com.xuyao.springboot.bean.po.Result;
 import com.xuyao.springboot.bean.po.User;
-import com.xuyao.springboot.bean.vo.UserDTO;
+import com.xuyao.springboot.bean.vo.UserVO;
+import com.xuyao.springboot.config.WrapResponse;
 import com.xuyao.springboot.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +24,9 @@ public class UserController extends BaseController{
     }
 
     @GetMapping("/getDetail")
-    public Object getDetail(User user){
-        UserDTO detail = userService.getDetail(user);
-        return Result.success("获取用户详情成功", detail);
-
+    @WrapResponse
+    public UserVO getDetail(User user){
+        return userService.getDetail(user);
     }
 
 }

@@ -2,11 +2,10 @@ package com.xuyao.springboot.service.impl;
 
 
 import com.xuyao.springboot.bean.po.User;
-import com.xuyao.springboot.bean.vo.UserDTO;
+import com.xuyao.springboot.bean.vo.UserVO;
 import com.xuyao.springboot.dao.IUserDao;
 import com.xuyao.springboot.service.IUserService;
 import com.xuyao.springboot.utils.CommonUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -37,9 +36,9 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public UserDTO getDetail(User user) {
+    public UserVO getDetail(User user) {
         User source = selectOne(user);
-        return CommonUtils.toDTO(source, UserDTO.class);
+        return CommonUtils.toDTO(source, UserVO.class);
     }
 
     @Override
