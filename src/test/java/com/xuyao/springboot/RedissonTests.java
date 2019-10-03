@@ -34,9 +34,15 @@ public class RedissonTests {
             executorService.execute(() ->{
                 RLock lock = redissonClient.getLock(name);
                 try {
+                    //waitTime：最长等待时间，leaseTime：最长持有时间
                     boolean b = lock.tryLock(1, 2, TimeUnit.SECONDS);
                     if(b){
-                        System.out.println(getName() + ": get lock");
+                        try{
+                            System.out.println(getName() + ": get lock");
+                        }finally {
+                            lock.unlock();
+                        }
+
                     }else{
                         System.out.println(getName() + ": lost lock");
                     }
@@ -46,7 +52,6 @@ public class RedissonTests {
                 latch.countDown();
             });
         }
-
         latch.await();
         System.out.println("-----the end");
     }
