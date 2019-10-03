@@ -1,4 +1,2 @@
 
-spring session
-shiro
-mybatis
+springSession redis shiro mybatis
