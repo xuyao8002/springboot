@@ -1,6 +1,7 @@
 package com.xuyao.springboot.controller;
 
 
+import com.xuyao.springboot.annotation.RateLimit;
 import com.xuyao.springboot.bean.po.Result;
 import com.xuyao.springboot.bean.po.User;
 import com.xuyao.springboot.bean.vo.UserVO;
@@ -25,6 +26,7 @@ public class UserController extends BaseController{
 
     @GetMapping("/getDetail")
     @WrapResponse
+    @RateLimit(seconds = 10, limit = 2)
     public UserVO getDetail(User user){
         return userService.getDetail(user);
     }
