@@ -1,5 +1,6 @@
 package com.xuyao.springboot.config;
 
+import com.xuyao.springboot.annotation.WrapResponse;
 import com.xuyao.springboot.bean.po.Result;
 import com.xuyao.springboot.exception.CustomException;
 import org.springframework.core.MethodParameter;

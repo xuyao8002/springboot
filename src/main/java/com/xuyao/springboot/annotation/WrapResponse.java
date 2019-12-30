@@ -1,4 +1,4 @@
-package com.xuyao.springboot.config;
+package com.xuyao.springboot.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

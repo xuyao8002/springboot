@@ -5,7 +5,7 @@ import com.xuyao.springboot.annotation.RateLimit;
 import com.xuyao.springboot.bean.po.Result;
 import com.xuyao.springboot.bean.po.User;
 import com.xuyao.springboot.bean.vo.UserVO;
-import com.xuyao.springboot.config.WrapResponse;
+import com.xuyao.springboot.annotation.WrapResponse;
 import com.xuyao.springboot.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
