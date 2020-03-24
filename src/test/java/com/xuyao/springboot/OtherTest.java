@@ -17,13 +17,21 @@ public class OtherTest {
     @Autowired
     private MessageSource messageSource;
 
+    private Locale locale = Locale.SIMPLIFIED_CHINESE;
+
     @Test
 	public void messageSource() {
-        String zh = messageSource.getMessage("greeting", null, Locale.SIMPLIFIED_CHINESE);
-        String en = messageSource.getMessage("greeting", null, Locale.US);
-        System.out.println(zh);
-        System.out.println(en);
+        String code = "greeting";
+        System.out.println(getMessage(code));
+        setLocale(Locale.US);
+        System.out.println(getMessage(code));
     }
 
+    private String getMessage(String code){
+        return messageSource.getMessage(code, null, locale);
+    }
 
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
 }
