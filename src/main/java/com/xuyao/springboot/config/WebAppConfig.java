@@ -7,17 +7,20 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.concurrent.ThreadPoolExecutor;
 
 @Configuration
 public class WebAppConfig {
 
-	@Value("${thread.name.prefix}")
-	private String threadNamePrefix;
+	@Value("${thread.scheduler.name.prefix}")
+	private String threadSchedulerNamePrefix;
 
-	@Value("${thread.pool.size}")
-	private int threadPoolSize;
+	@Value("${thread.scheduler.pool.size}")
+	private int threadSchedulerPoolSize;
 
 	@Value("${default.encoding}")
 	private String defaultEncoding;
@@ -25,6 +28,20 @@ public class WebAppConfig {
 	@Value("${resource.boundle.name}")
 	private String resourceBoundleName;
 
+	@Value("${thread.name.prefix}")
+	private String threadNamePrefix;
+
+	@Value("${thread.core.pool.size}")
+	private int threadCorePoolSize;
+
+	@Value("${thread.max.pool.size}")
+	private int threadMaxPoolSize;
+
+	@Value("${thread.queue.capacity}")
+	private int threadQueueCapacity;
+
+	@Value("${thread.keep.alive.seconds}")
+	private int threadKeepAliveSeconds;
 
 	/**
 	 * restTemplate配置
@@ -49,11 +66,24 @@ public class WebAppConfig {
 	 * @return
 	 */
 	@Bean
-	public ThreadPoolTaskScheduler scheduledExecutorService() {
+	public ThreadPoolTaskScheduler taskScheduler() {
 		ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-		scheduler.setPoolSize(threadPoolSize);
-		scheduler.setThreadNamePrefix(threadNamePrefix);
+		scheduler.setPoolSize(threadSchedulerPoolSize);
+		scheduler.setThreadNamePrefix(threadSchedulerNamePrefix);
 		return scheduler;
+	}
+
+	@Bean
+	public ThreadPoolTaskExecutor taskExecutor(){
+		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+		executor.setCorePoolSize(threadCorePoolSize);
+		executor.setMaxPoolSize(threadMaxPoolSize);
+		executor.setQueueCapacity(threadQueueCapacity);
+		executor.setKeepAliveSeconds(threadKeepAliveSeconds);
+		executor.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());
+		executor.setThreadNamePrefix(threadNamePrefix);
+		executor.initialize();
+		return executor;
 	}
 
 	/**
