@@ -1,5 +1,6 @@
 package com.xuyao.springboot.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -28,20 +29,9 @@ public class WebAppConfig {
 	@Value("${resource.boundle.name}")
 	private String resourceBoundleName;
 
-	@Value("${thread.name.prefix}")
-	private String threadNamePrefix;
+	@Autowired
+	private ThreadPoolProperties threadPoolProperties;
 
-	@Value("${thread.core.pool.size}")
-	private int threadCorePoolSize;
-
-	@Value("${thread.max.pool.size}")
-	private int threadMaxPoolSize;
-
-	@Value("${thread.queue.capacity}")
-	private int threadQueueCapacity;
-
-	@Value("${thread.keep.alive.seconds}")
-	private int threadKeepAliveSeconds;
 
 	/**
 	 * restTemplate配置
@@ -76,12 +66,12 @@ public class WebAppConfig {
 	@Bean
 	public ThreadPoolTaskExecutor taskExecutor(){
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(threadCorePoolSize);
-		executor.setMaxPoolSize(threadMaxPoolSize);
-		executor.setQueueCapacity(threadQueueCapacity);
-		executor.setKeepAliveSeconds(threadKeepAliveSeconds);
+		executor.setCorePoolSize(threadPoolProperties.getCorePoolSize());
+		executor.setMaxPoolSize(threadPoolProperties.getMaxPoolSize());
+		executor.setQueueCapacity(threadPoolProperties.getQueueCapacity());
+		executor.setKeepAliveSeconds(threadPoolProperties.getKeepAliveSeconds());
 		executor.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());
-		executor.setThreadNamePrefix(threadNamePrefix);
+		executor.setThreadNamePrefix(threadPoolProperties.getNamePrefix());
 		executor.initialize();
 		return executor;
 	}
