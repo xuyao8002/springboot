@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +15,7 @@ import java.util.Properties;
 @ComponentScan("com.xuyao.springboot")
 @MapperScan("com.xuyao.springboot.dao")
 @EnableAsync
+@EnableScheduling
 public class SpringbootApplication {
 
 	public static void main(String[] args) throws IOException {
