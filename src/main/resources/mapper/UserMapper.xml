@@ -193,7 +193,14 @@
     select
     <include refid="Base_Column_List" />
     from t_user
-    where username = #{username}
+    <where>
+        <if test="username != null and username != ''">
+          and username = #{username}
+        </if>
+      <if test="phone != null and phone != ''">
+        and phone = #{phone}
+      </if>
+    </where>
   </select>
 
 </mapper>

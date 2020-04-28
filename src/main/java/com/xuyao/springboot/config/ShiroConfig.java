@@ -16,7 +16,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.servlet.Filter;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Configuration
@@ -34,6 +35,12 @@ public class ShiroConfig {
         customRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return customRealm;
     }
+
+    @Bean
+    public PhoneRealm phoneRealm() {
+        return new PhoneRealm();
+    }
+
 //    @Bean
 //    protected CacheManager cacheManager() {
 //        return new MemoryConstrainedCacheManager();
@@ -119,9 +126,12 @@ public class ShiroConfig {
     }
 
     @Bean
-    public DefaultWebSecurityManager defaultWebSecurityManager(Realm realm) {
+    public DefaultWebSecurityManager defaultWebSecurityManager(Realm realm, PhoneRealm phoneRealm) {
         DefaultWebSecurityManager  securityManager = new DefaultWebSecurityManager ();
-        securityManager.setRealm(realm);
+        List<Realm> realms = new ArrayList<>();
+        realms.add(realm);
+        realms.add(phoneRealm);
+        securityManager.setRealms(realms);
 //        securityManager.setSessionManager(sessionManager());
         return securityManager;
     }

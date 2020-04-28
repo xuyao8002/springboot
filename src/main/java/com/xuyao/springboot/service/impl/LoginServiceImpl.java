@@ -1,6 +1,7 @@
 package com.xuyao.springboot.service.impl;
 
 
+import com.xuyao.springboot.config.PhoneToken;
 import com.xuyao.springboot.config.ShiroToken;
 import com.xuyao.springboot.consts.Consts;
 import com.xuyao.springboot.service.ILoginService;
@@ -41,5 +42,15 @@ public class LoginServiceImpl implements ILoginService {
         currentUser.logout();
         String tokenId = CommonUtils.getTokenId(request);
         redisTemplate.delete(tokenId);
+    }
+
+    @Override
+    public String phoneLogin(String phone) {
+        PhoneToken token = new PhoneToken(phone);
+        Subject currentUser = SecurityUtils.getSubject();
+        currentUser.login(token);
+        String tokenId = DigestUtils.md5DigestAsHex((UUID.randomUUID().toString()).getBytes());
+        redisTemplate.opsForValue().set(tokenId,  token.getUser(), Consts.TOKEN_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        return tokenId;
     }
 }

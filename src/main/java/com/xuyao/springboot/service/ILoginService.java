@@ -6,4 +6,6 @@ public interface ILoginService {
 
     void logout();
 
+    String phoneLogin(String phone);
+
 }
