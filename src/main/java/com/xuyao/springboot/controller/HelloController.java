@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HelloController {
+public class HelloController extends BaseController {
 
     @Autowired
     private ICustomService customService;
@@ -35,7 +35,7 @@ public class HelloController {
     @RequestMapping("/valid")
     public Object valid(@Validated ValidDTO validDTO, BindingResult result) {
         if (result.hasErrors()) {
-            return result.toString();
+            return handleErrors(result);
         }
         return "valid";
     }
@@ -49,7 +49,7 @@ public class HelloController {
     @RequestMapping("/insertValid")
     public Object insertValid(@Validated(ValidDTO.Insert.class) ValidDTO validDTO, BindingResult result) {
         if (result.hasErrors()) {
-            return result.toString();
+            return handleErrors(result);
         }
         return "insertValid";
     }
@@ -63,7 +63,7 @@ public class HelloController {
     @RequestMapping("/updateValid")
     public Object updateValid(@Validated(ValidDTO.Update.class) ValidDTO validDTO, BindingResult result) {
         if (result.hasErrors()) {
-            return result.toString();
+            return handleErrors(result);
         }
         return "updateValid";
     }
