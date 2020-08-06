@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,7 +34,7 @@ public class HelloController extends BaseController {
      * @return
      */
     @RequestMapping("/valid")
-    public Object valid(@Validated ValidDTO validDTO, BindingResult result) {
+    public Object valid(@Validated @RequestBody ValidDTO validDTO, BindingResult result) {
         if (result.hasErrors()) {
             return handleErrors(result);
         }
