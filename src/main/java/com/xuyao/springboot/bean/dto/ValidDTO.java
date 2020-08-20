@@ -25,10 +25,11 @@ public class ValidDTO {
 
     @NotBlank(message = "name必填", groups = {Insert.class, Update.class})
     private String name;
+    //post请求日期格式化
+    // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     //get请求日期格式化
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     // @DateTimeFormat(pattern ="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime date;
+    // private LocalDateTime date;
     public interface Insert extends Default {};
     public interface Update extends Default {};
 
