@@ -3,13 +3,14 @@ package com.xuyao.springboot.controller;
 
 import com.xuyao.springboot.annotation.ArgResolver;
 import com.xuyao.springboot.annotation.RateLimit;
+import com.xuyao.springboot.annotation.WrapResponse;
 import com.xuyao.springboot.bean.po.Result;
 import com.xuyao.springboot.bean.po.User;
 import com.xuyao.springboot.bean.vo.UserVO;
-import com.xuyao.springboot.annotation.WrapResponse;
 import com.xuyao.springboot.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/user")
@@ -32,7 +33,11 @@ public class UserController extends BaseController{
         return userService.getDetail(user);
     }
 
-    @RequestMapping("/getUser")
+    @RequestMapping(value = {
+            "/user",
+            "/getUser",
+            "/userDetail"
+    })
     @WrapResponse
     @ArgResolver
     public Object getUser(User user){
