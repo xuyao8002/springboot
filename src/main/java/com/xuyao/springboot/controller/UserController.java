@@ -11,7 +11,6 @@ import com.xuyao.springboot.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/user")
 public class UserController extends BaseController{
@@ -44,4 +43,19 @@ public class UserController extends BaseController{
         return user;
     }
 
+
+    @RequestMapping(value = "/demo"
+            //配合ResponseBody使用，指定返回类型
+//            , produces = MediaType.APPLICATION_XML_VALUE
+            //配合RequestBody使用，指定请求类型
+//            , consumes = MediaType.APPLICATION_JSON_VALUE
+            //限制请求范围，只处理json类型
+//            , headers = {"content-type=application/json"}
+            //限制请求范围，只处理name是xy的请求
+//            , params = {"name=xy"}
+    )
+//    @ArgResolver
+    public Object demo(@RequestBody User user){
+        return user;
+    }
 }
