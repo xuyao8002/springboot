@@ -7,6 +7,7 @@ import com.xuyao.springboot.annotation.WrapResponse;
 import com.xuyao.springboot.bean.po.Result;
 import com.xuyao.springboot.bean.po.User;
 import com.xuyao.springboot.bean.vo.UserVO;
+import com.xuyao.springboot.config.AppContextAware;
 import com.xuyao.springboot.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -55,7 +56,10 @@ public class UserController extends BaseController{
 //            , params = {"name=xy"}
     )
 //    @ArgResolver
-    public Object demo(@RequestBody User user){
+    public Object demo(User user){
+        IUserService us = AppContextAware.getBean(IUserService.class);
+        System.out.println("userService from aware: " + us);
+        System.out.println("userService: " + us);
         return user;
     }
 }
