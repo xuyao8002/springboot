@@ -5,7 +5,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.HyperLogLogOperations;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -40,21 +45,46 @@ public class RedisTests {
 
 	}
 
+	//基数统计，如访问量
+    //元素只能添加，不能删除
 	@Test
     public void hyperLogLog(){
-	    int i = 1000_0000;
-        String hello = "hello";
-        int x = 0;
-        for (int i1 = 0; i1 < 10000; i1++) {
-            String[] vals = new String[1000];
-            for(int j = 0; j < 1000; j++){
-                vals[j] = String.valueOf(x++);
-            }
-            redisTemplate.opsForHyperLogLog().add(hello, vals);
-        }
-        System.out.println("add " + i);
-        System.out.println(redisTemplate.opsForHyperLogLog().size(hello));
+        HyperLogLogOperations<String, String> ops = redisTemplate.opsForHyperLogLog();
+        String key1 = "log::1";
+        ops.add(key1, "1", "2", "3", "4");
+        System.out.println(key1 + ": " + ops.size(key1));
+        String key2 = "log::2";
+        ops.add(key2, "4", "5", "6", "7");
+        System.out.println(key2 + ": " + ops.size(key2));
+        String key3 = "log::3";
+        ops.union(key3, key1, key2);
+        System.out.println(key3 + ": " + ops.size(key3));
     }
 
+    //位图操作，统计数
+    @Test
+    public void bitmap(){
+	    String key = "bit::xy";
+        ValueOperations<String, String> ops = redisTemplate.opsForValue();
+        ops.setBit(key, 0, true);
+        ops.setBit(key, 2, true);
+        ops.setBit(key, 4, true);
+        ops.setBit(key, 8, true);
+        ops.setBit(key, 16, true);
+        ops.setBit(key, 32, true);
+        ops.setBit(key, 64, true);
+        ops.setBit(key, 128, true);
+
+        System.out.println("bit 50: " + ops.getBit(key, 50));
+        System.out.println("bit 64: " + ops.getBit(key, 64));
+
+        System.out.println("bit count: " + redisTemplate.execute(new RedisCallback<Long>(){
+            @Override
+            public Long doInRedis(RedisConnection connection) throws DataAccessException {
+                return connection.bitCount(key.getBytes());
+            }
+        }));
+
+    }
 
 }
