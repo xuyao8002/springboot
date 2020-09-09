@@ -3,6 +3,7 @@ package com.xuyao.springboot.bean.vo;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -24,5 +25,7 @@ public class UserVO extends BaseVO {
     private String email;
 
     private String address;
+
+    private LocalDateTime updateDate;
 
 }
