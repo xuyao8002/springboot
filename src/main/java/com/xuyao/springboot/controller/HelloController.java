@@ -3,6 +3,7 @@ package com.xuyao.springboot.controller;
 import com.xuyao.springboot.bean.dto.ValidDTO;
 import com.xuyao.springboot.exception.CustomException;
 import com.xuyao.springboot.service.ICustomService;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -10,6 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import java.util.*;
 
 @RestController
 public class HelloController extends BaseController {
@@ -65,6 +70,15 @@ public class HelloController extends BaseController {
     public Object updateValid(@Validated(ValidDTO.Update.class) ValidDTO validDTO, BindingResult result) {
         if (result.hasErrors()) {
             return handleErrors(result);
+        }
+        return "updateValid";
+    }
+
+    @RequestMapping("/manualValid")
+    public Object manualValid(ValidDTO validDTO) {
+        Set<ConstraintViolation<ValidDTO>> validateSet = Validation.buildDefaultValidatorFactory().getValidator().validate(validDTO, ValidDTO.Update.class);
+        if (CollectionUtils.isNotEmpty(validateSet)) {
+            return handleErrors(validateSet);
         }
         return "updateValid";
     }
