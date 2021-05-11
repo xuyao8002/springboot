@@ -5,10 +5,8 @@ import com.xuyao.springboot.bean.po.Result;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.validation.ConstraintViolation;
+import java.util.*;
 
 public class BaseController {
 
@@ -21,6 +19,16 @@ public class BaseController {
             errors.add(errorMap);
         }
         return Result.error("校验失败", errors);
+    }
+
+    protected <T> Object handleErrors(Set<ConstraintViolation<T>> validateSet) {
+        List<Map> errorList = new ArrayList<>(validateSet.size());
+        for (ConstraintViolation<T> validate : validateSet) {
+            Map error = new HashMap();
+            error.put(validate.getPropertyPath(), validate.getMessage());
+            errorList.add(error);
+        }
+        return Result.error("校验失败", errorList);
     }
 
 }
