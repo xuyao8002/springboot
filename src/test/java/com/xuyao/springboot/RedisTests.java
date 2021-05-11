@@ -7,13 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.core.HyperLogLogOperations;
-import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.*;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -86,5 +84,41 @@ public class RedisTests {
         }));
 
     }
+
+    //set，交集、差集、并集
+    @Test
+    public void set(){
+        String key1 = "set::xy1";
+        String key2 = "set::xy2";
+        SetOperations<String, String> set = redisTemplate.opsForSet();
+        set.add(key1, "100001", "100002", "100003", "100004", "100005", "100006");
+        set.add(key2, "100001", "100003", "100005", "100007", "100009", "100011");
+        Set<String> intersect = set.intersect(key1, key2);
+//        Set<String> intersect = set.intersectAndStore(key1, key2, "intersectKey");
+        System.out.println(intersect);
+
+        redisTemplate.delete(key1);
+        redisTemplate.delete(key2);
+
+        set.add(key1, "100001", "100002", "100003", "100004", "100005", "100006");
+        set.add(key2, "100001", "100002", "100003", "100004", "100006", "100007");
+
+        Set<String> difference = set.difference(key2, key1);
+        System.out.println(difference);
+
+        redisTemplate.delete(key1);
+        redisTemplate.delete(key2);
+
+        set.add(key1, "100001", "100002", "100003", "100004", "100005", "100006");
+        set.add(key2, "100007", "100008");
+
+        Set<String> union = set.union(key2, key1);
+        System.out.println(union);
+
+        redisTemplate.delete(key1);
+        redisTemplate.delete(key2);
+
+    }
+
 
 }
