@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * <p>
@@ -61,18 +60,18 @@ public class Article implements Serializable {
     /**
      * 创建时间
      */
-    @TableField("create_time")
-    private Date createTime;
+//    @TableField("create_time")
+//    private Date createTime;
 
     /**
      * 更新时间
      */
-    @TableField("update_time")
-    private Date updateTime;
+//    @TableField("update_time")
+//    private Date updateTime;
 
     /**
      * 删除标识，0未删除，1已删除
      */
-    private Integer deleted;
+//    private Integer deleted;
 
 }

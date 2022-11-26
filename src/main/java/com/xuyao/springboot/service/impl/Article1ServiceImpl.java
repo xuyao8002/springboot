@@ -21,9 +21,10 @@ import java.util.List;
  * @author xuyao
  * @since 2022-07-17
  */
-@Service
-@DS("jianshu")
-public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements IArticleService {
+@Service("Article1ServiceImpl")
+@DS("dynamic1")
+public class Article1ServiceImpl extends ServiceImpl<ArticleMapper, Article> implements IArticleService {
+
 
     @Override
     public List<Article> getList() {
@@ -31,8 +32,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     private List<Article> getArticles() {
-        return this.baseMapper.selectList(Wrappers.lambdaQuery(Article.class)
-                .select(Article::getId, Article::getTitle, Article::getContent, Article::getAuthor, Article::getAvatar, Article::getArticleId, Article::getOriginUrl));
+        return this.baseMapper.selectList(Wrappers.lambdaQuery(Article.class));
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
