@@ -1,6 +1,8 @@
 package com.xuyao.springboot.utils;
 
 
+import com.alibaba.druid.sql.SQLUtils;
+import com.alibaba.druid.sql.ast.SQLStatement;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xuyao.springboot.consts.Consts;
@@ -15,6 +17,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.List;
 
 public class CommonUtils {
 
@@ -116,5 +119,10 @@ public class CommonUtils {
         }
         return ipAddress;
     }
+
+    public static List<SQLStatement> parseStatements(String sql, String dbType){
+        return SQLUtils.parseStatements(sql, dbType);
+    }
+
 
 }
