@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/value")
@@ -21,6 +22,9 @@ public class ValueController {
 
     @Value("#{'${value2.list1:}'.empty ? null : '${value2.list1:}'.split(',')}")
     private List<String> splitList;
+
+    @Value("${set:1,2,3}")
+    private Set<String> set;
 
     @Value("#{${value3.map}}")
     private Map<String, Object> map;
@@ -38,6 +42,11 @@ public class ValueController {
     @RequestMapping("/splitList")
     public Object splitList(){
         return splitList;
+    }
+
+    @RequestMapping("/set")
+    public Object set(){
+        return set;
     }
 
     @RequestMapping("/map")
