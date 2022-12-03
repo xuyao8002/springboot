@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.format.DateTimeFormatter;
 
+/**
+ * json格式请求参数转换
+ */
 @JsonComponent
 public class DateFormatConfig {
 
