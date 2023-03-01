@@ -6,10 +6,11 @@ import com.xuyao.springboot.service.ILoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -47,6 +48,22 @@ public class LoginController {
             log.error("手机号不存在", e);
             return Result.error("手机号不存在");
         }
+    }
+
+    @RequestMapping("/log")
+    @ResponseBody
+    public Object log() {
+        String traceId = System.currentTimeMillis() + "";
+        MDC.put("traceId", traceId);
+        log.info("log in main thread: ");
+        Map<String, String> copyOfContextMap = MDC.getCopyOfContextMap();
+        new Thread(() -> {
+            MDC.setContextMap(copyOfContextMap);
+            log.info("log in new thread: ");
+            MDC.clear();
+        }).start();
+        MDC.remove("traceId");
+        return traceId;
     }
 
 }
