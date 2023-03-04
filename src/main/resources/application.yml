@@ -1,0 +1,13 @@
+#Apollo 配置
+app:
+  id: xyboot                                 #应用ID
+apollo:
+  cacheDir: E:\workspace\java\springboot     #配置本地配置缓存目录
+  cluster: default                           #指定使用哪个集群的配置
+  meta: http://ip:port                       #配置中心地址
+  autoUpdateInjectedSpringProperties: true   #是否开启 Spring 参数自动更新
+  bootstrap:
+    enabled: true                            #是否开启 Apollo
+    namespaces: application                  #设置 Namespace
+    eagerLoad:
+      enabled: false
