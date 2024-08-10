@@ -9,11 +9,9 @@ import org.apache.shiro.session.mgt.eis.SessionIdGenerator;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.AnonymousFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.servlet.Filter;
 import java.util.ArrayList;
@@ -22,9 +20,6 @@ import java.util.Map;
 
 @Configuration
 public class ShiroConfig {
-
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
 
     @Value("${shiro.filter}")
     private String shiroFilter;
@@ -142,7 +137,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
         filters.put("anon", new AnonymousFilter());
-        filters.put("authc", new ShiroAuthFilter(redisTemplate));
+        filters.put("authc", new ShiroAuthFilter());
 
 //        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 //////        filterChainDefinitionMap.put("/admin/**", "roles[admin]");

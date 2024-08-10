@@ -7,12 +7,8 @@ import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class ShiroRealm extends AuthorizingRealm {
-
-    @Autowired
-    private IUserService userService;
 
     /**
      * 认证
@@ -23,7 +19,7 @@ public class ShiroRealm extends AuthorizingRealm {
         String username = token.getUsername();
         User query = new User();
         query.setUsername(username);
-        User user = userService.selectOne(query);
+        User user = AppContextAware.getBean(IUserService.class).selectOne(query);
         if (user == null) {
             throw new UnknownAccountException(username + "不存在");
         }

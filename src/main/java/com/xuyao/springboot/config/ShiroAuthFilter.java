@@ -19,8 +19,8 @@ public class ShiroAuthFilter extends FormAuthenticationFilter {
 
     private RedisTemplate<String, Object> redisTemplate;
 
-    public ShiroAuthFilter(RedisTemplate<String, Object> redisTemplate) {
-        this.redisTemplate = redisTemplate;
+    public ShiroAuthFilter() {
+
     }
 
     @Override
@@ -33,11 +33,18 @@ public class ShiroAuthFilter extends FormAuthenticationFilter {
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         String tokenId = CommonUtils.getTokenId((HttpServletRequest) request);
-        boolean isAccessAllowed = StringUtils.isNotBlank(tokenId) && redisTemplate.hasKey(tokenId);
+        boolean isAccessAllowed = StringUtils.isNotBlank(tokenId) && getRedisTemplate().hasKey(tokenId);
         if(isAccessAllowed){
-            redisTemplate.expire(tokenId, Consts.TOKEN_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            getRedisTemplate().expire(tokenId, Consts.TOKEN_TIMEOUT_SECONDS, TimeUnit.SECONDS);
         }
         return isAccessAllowed;
+    }
+
+    private RedisTemplate<String, Object> getRedisTemplate(){
+        if(redisTemplate == null){
+            redisTemplate = AppContextAware.getBean("redisTemplate", RedisTemplate.class);
+        }
+        return redisTemplate;
     }
 
 }

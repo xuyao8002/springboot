@@ -6,12 +6,8 @@ import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class PhoneRealm extends AuthorizingRealm {
-
-    @Autowired
-    private IUserService userService;
 
     /**
      * 认证
@@ -22,7 +18,7 @@ public class PhoneRealm extends AuthorizingRealm {
         String phone = token.getPhone();
         User query = new User();
         query.setPhone(phone);
-        User user = userService.selectOne(query);
+        User user = AppContextAware.getBean(IUserService.class).selectOne(query);
         if (user == null) {
             throw new UnknownAccountException("手机号" + phone + "不存在");
         }

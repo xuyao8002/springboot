@@ -39,7 +39,7 @@ public class LoginController {
         return Result.success("退出成功");
     }
 
-    @GetMapping("/phoneLogin")
+    @PostMapping("/phoneLogin")
     public Object phoneLogin(String phone){
         try{
             String tokenId = loginService.phoneLogin(phone);
