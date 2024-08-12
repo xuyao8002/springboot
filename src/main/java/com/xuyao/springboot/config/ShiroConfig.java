@@ -2,7 +2,9 @@ package com.xuyao.springboot.config;
 
 
 import com.xuyao.springboot.utils.CommonUtils;
+import org.apache.shiro.authc.Authenticator;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator;
 import org.apache.shiro.session.mgt.eis.SessionIdGenerator;
@@ -127,6 +129,10 @@ public class ShiroConfig {
         realms.add(realm);
         realms.add(phoneRealm);
         securityManager.setRealms(realms);
+        Authenticator authenticator = securityManager.getAuthenticator();
+        if(authenticator instanceof ModularRealmAuthenticator){
+            ((ModularRealmAuthenticator) authenticator).setAuthenticationStrategy(new ThrowExceptionStrategy());
+        }
 //        securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
